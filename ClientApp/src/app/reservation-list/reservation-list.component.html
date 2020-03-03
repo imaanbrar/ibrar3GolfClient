@@ -1,0 +1,17 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="dataSource"
+              [showBorders]="true"
+              [hoverStateEnabled]="true"
+              (onRowClick)="itemSelected($event)">
+  <dxo-export [enabled]="true" fileName="Reservations"></dxo-export>
+  <dxo-sorting mode="none"></dxo-sorting>
+  <dxo-scrolling mode="virtual" useNative="false"></dxo-scrolling>
+
+
+  <dxi-column dataField="reservationType" caption="Reservation Type" dataType="string"></dxi-column>
+  <dxi-column dataField="userName" caption="For" dataType="string"></dxi-column>
+  <dxi-column dataField="players" caption="Players" dataType="number"></dxi-column>
+  <dxi-column dataField="startDateTime" caption="Start Date Time" dataType="datetime"></dxi-column>
+  <dxi-column dataField="endDateTime" caption="End Date Time" dataType="datetime"></dxi-column>
+  <dxi-column dataField="isApproved" caption="Approved" dataType="boolean"></dxi-column>
+</dx-data-grid>

@@ -1,0 +1,43 @@
+<!--<dx-scheduler class="scheduler"
+              [groups]="groups"
+              [currentDate]="currentDate"
+              [(dataSource)]="schedulerData"
+              appointmentTooltipTemplate="appointmentTooltip"
+              [resources]="schedulerResources"
+              [editing]="false"
+              [startDayHour]="6"
+              [endDayHour]="24"
+              (onOptionChanged)="optionChanged($event)"
+              (onAppointmentDblClick)="openBook($event)"
+              [showAllDayPanel]="false"
+              [views]="adaptOptions.views"
+              [height]="400"
+              [currentView]="adaptOptions.currentView">
+  <div class="tooltip-template" *dxTemplate="let appointment of 'appointmentTooltip'">
+    <div class="caption">Tee Time Booked</div>
+    <span>{{appointment.startDateTime | date : 'shortTime'}} -</span>
+    <span>{{appointment.endDateTime | date : 'shortTime'}}</span>
+  </div>
+</dx-scheduler>-->
+
+<dx-scheduler class="scheduler"
+              [groups]="groups"
+              [currentDate]="currentDate"
+              [(dataSource)]="schedulerData"
+              appointmentTooltipTemplate="appointmentTooltip"
+              [resources]="schedulerResources"
+              [startDayHour]="9"
+              [endDayHour]="21"
+              (onOptionChanged)="optionChanged($event)"
+              (onAppointmentDblClick)="openBook($event)"
+              [showAllDayPanel]="false"
+              [views]="adaptOptions.views"
+              [height]="500"
+              [currentView]="adaptOptions.currentView">
+  <div class="tooltip-template" *dxTemplate="let appointment of 'appointmentTooltip'">
+    <div class="caption">Tee Time Booked</div>
+    <span>{{appointment.startDateTime | date : 'shortTime'}} -</span>
+    <span>{{appointment.endDateTime | date : 'shortTime'}}</span>
+  </div>
+</dx-scheduler>
+<div style="height: 100px;"></div>

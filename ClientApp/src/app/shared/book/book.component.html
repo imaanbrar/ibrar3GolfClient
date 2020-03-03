@@ -1,0 +1,109 @@
+
+  <div class="title">Book a Tee Time</div>
+  <dx-form id="book-form"
+           [(formData)]="bookData"
+           labelLocation="left"
+           [showRequiredMark]="false" colCount="3"
+           (onFieldDataChanged)="dateChanged($event)">
+    <dxi-item dataField="typeCode"
+              editorType="dxSelectBox"
+              [editorOptions]="{
+                    dataSource: typeCodes,
+                    valueExpr: 'code',
+                    displayExpr: 'description',
+                    readOnly: !isAdmin && !isShareholder
+                }">
+
+      <dxo-label text="Reservation Type"></dxo-label>
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="startDateTime"
+              editorType="dxDateBox"
+              [editorOptions]="{
+                    type: 'datetime',
+                    adaptivityEnabled: true,
+                    height: 36,
+                    width: '100%',
+                    min: minStartDate
+                }">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+      <dxi-validation-rule type="custom"
+                           [reevaluate]="true"
+                           [validationCallback]="timeValidation">
+      </dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="endDateTime"
+              editorType="dxDateBox"
+              [editorOptions]="{
+                    type: 'datetime',
+                    height: 36,
+                    width: '100%',
+                    readOnly: true
+                }">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="players"
+              editorType="dxSelectBox"
+              [editorOptions]="{
+                    dataSource: playersDropdown
+                }">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="userId"
+              editorType="dxSelectBox"
+              [editorOptions]="{
+                    dataSource: users,
+                    valueExpr: 'value',
+                    displayExpr: 'text',
+                    readOnly: !isAdmin
+                }">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+      <dxo-label text="User"></dxo-label>
+    </dxi-item>
+    <dxi-item dataField="recurringDay"
+              editorType="dxSelectBox"
+              [visible]="GetIsStadingReservation()"
+              [editorOptions]="{
+                    dataSource: days,
+                    valueExpr: 'code',
+                    displayExpr: 'description',
+                    readOnly: true
+                }">
+    </dxi-item>
+    <dxi-item dataField="isApproved"
+              editorType="dxCheckBox"
+              [visible]="GetIsStadingReservation()"
+              [editorOptions]="{ readOnly: !isAdmin }">
+      <dxo-label text="Approved">
+      </dxo-label>
+    </dxi-item>
+    <dxi-item dataField="notes"
+              editorType="dxTextArea"
+              [colSpan]="3"
+              cssClass="booking-details"
+              [editorOptions]="{
+                    height: 55
+                }">
+    </dxi-item>
+    <dxi-validation-rule type="stringLength" max="255" message="Please enter maximum of 255 characters"></dxi-validation-rule>
+  </dx-form>
+  <div class="buttons-on-popup">
+    <dx-button class="button-popup"
+               [visible]="isNew"
+               type="default"
+               (onClick)="booking()"
+               text="Book">
+    </dx-button>
+    <dx-button class="button-popup"
+               [visible]="!isNew"
+               type="default"
+               (onClick)="booking()"
+               text="Update">
+    </dx-button>
+    <dx-button class="button-popup cancel"
+               [visible]="!isNew"
+               type="danger"
+               (onClick)="delete()"
+               text="Cancel (Delete)">
+    </dx-button>
+  </div>
