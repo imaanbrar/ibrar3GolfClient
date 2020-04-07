@@ -1,0 +1,16 @@
+<div class="dx-card">
+
+  <dx-tab-panel [scrollByContent]="true" [dataSource]="tabs">
+
+    <div *dxTemplate="let tab of 'item'">
+      <div class="dx-card" style="padding: 10px;">
+        <div class="tabpanel-item" *ngIf="tab==='Reservations'">
+          <app-reservation-list></app-reservation-list>
+        </div>
+        <div class="tabpanel-item" *ngIf="tab==='Schedule'">
+          <app-reservation-schedule></app-reservation-schedule>
+        </div>
+      </div>
+    </div>
+  </dx-tab-panel>
+</div>

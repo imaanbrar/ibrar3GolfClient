@@ -81,12 +81,14 @@ export class BookComponent implements OnInit {
     this.reservations = this.reservationService.allReservations;
   }
 
-  dateChanged(e: any) {
+  fieldDataChanged(e: any) {
     if (e.dataField === "startDateTime") {
       this.bookData.endDateTime = this.commonService.addTime(e.value, MAX_TIME_GAME);
       this.bookData.startDateTime = e.value;
-      if (this.bookData.typeCode == 'S') {
-        this.bookData.recurringDay = this.getRecurringDayByDate(new Date(e.value));
+    }
+    if (e.dataField === "typeCode") {
+      if (e.value === "S") {
+        this.bookData.players = 1;
       }
     }
   }
@@ -104,24 +106,17 @@ export class BookComponent implements OnInit {
       this.bookData.typeCode = 'O';
       this.bookData.startDateTime = new Date(date.setHours(MIN_START_TIME, 0, 0, 0));
       this.bookData.endDateTime = this.commonService.addTime(this.bookData.startDateTime, MAX_TIME_GAME);
-      this.bookData.players = 4;
+      this.bookData.players = 1;
       this.bookData.notes = "";
     }
   }
 
-  timeValidation = (data: any) => {
-    if (this.clickBook) {
-      let time = (new Date(data.value)).getHours();
-      if (MIN_START_TIME > time || MAX_END_TIME < time) {
-        data.rule.message = "This time is unavailable. Opening hours 09:00 AM - 7:00 PM";
-        return false;
-      } else {
-        let result = this.validateBook();
-        data.rule.message = "This time is booked";
-        return !result;
-      }
-    } else {
-      return true;
+  getRecurringDay() {
+    if (this.bookData.typeCode == 'S') {
+      return this.getRecurringDayByDate(new Date(this.bookData.startDateTime));
+    }
+    else {
+      return null;
     }
   }
 
@@ -155,19 +150,55 @@ export class BookComponent implements OnInit {
     }
   }
 
+  timeValidation = (data: any) => {
+    if (this.clickBook) {
+      let time = (new Date(data.value)).getHours();
+      if (MIN_START_TIME > time || MAX_END_TIME < time) {
+        data.rule.message = "This time is unavailable. Opening hours 09:00 AM - 7:00 PM";
+        return false;
+      } else {
+        let result = this.validateBook();
+        data.rule.message = "No Available slot - Maximum of players are allowed";
+        return !result;
+      }
+    } else {
+      return true;
+    }
+  }
+
   validateBook() {
     let that = this;
     if (this.isNew) {
       this.reservations.splice(this.reservations.indexOf(this.data), 1);
     }
     return this.reservations.some(function (item) {
-      
-      //if (!item.id === that.data.id) {
-        return (((item.startDateTime <= that.bookData.startDateTime) && (that.bookData.startDateTime < item.endDateTime))
-          || ((that.bookData.endDateTime > item.startDateTime) && (that.bookData.endDateTime <= item.endDateTime)));
-      //} else {
-      //  return false;
-      //}
+      var thatId = (that.data !== null) ? that.data.id : 0;
+      if (!(item.id === thatId)) {
+
+        var check = (((new Date(item.startDateTime) <= new Date(that.bookData.startDateTime)) && (new Date(that.bookData.startDateTime) < new Date(item.endDateTime)))
+          || ((new Date(that.bookData.endDateTime) > new Date(item.startDateTime)) && (new Date(that.bookData.endDateTime) <= new Date(item.endDateTime))));
+
+        if (check) {
+          var playersCount = 0;
+          that.reservations.forEach(x => {
+            if (!(x.id === thatId)) {
+              var doubleCheck = (((new Date(x.startDateTime) <= new Date(that.bookData.startDateTime)) && (new Date(that.bookData.startDateTime) < new Date(x.endDateTime)))
+                || ((new Date(that.bookData.endDateTime) > new Date(x.startDateTime)) && (new Date(that.bookData.endDateTime) <= new Date(x.endDateTime))));
+              if (doubleCheck) {
+                playersCount = playersCount + item.players;
+                console.log(playersCount);
+              }
+            }
+          });
+          console.log(playersCount);
+          return (playersCount + that.bookData.players > 4);
+        }
+        else {
+          return false;
+        }
+      } else {
+        return false; 
+      }
     });
   }
 
@@ -189,6 +220,10 @@ export class BookComponent implements OnInit {
     result = formInstance.validate();
     if (result.isValid) {
       let data = formInstance.option("formData");
+      //bookData.startDateTime = this.commonService.convertDateTimeForService(new Date(this.bookData.startDateTime));
+      //console.log(this.bookData.startDateTime);
+      //console.log(this.bookData.startDateTime);
+      //this.bookData.startDateTime = (new Date(this.bookData.startDateTime)).toUTCString();
       this.reservations.push(this.bookData);
       this.reservationService.setReservation(this.bookData, this.isNew);
       this.bookVisible = !this.bookVisible;

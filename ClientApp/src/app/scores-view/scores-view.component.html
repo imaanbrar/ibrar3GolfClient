@@ -1,0 +1,90 @@
+
+  <div class="dx-field" style="margin-bottom: 10px;">
+    <div class="dx-field-label">Handicap Score:</div>
+    <div class="dx-field-value">
+      <dx-number-box [value]="handicap" [readOnly]="true">
+        <dxo-format [precision]="2"></dxo-format>
+      </dx-number-box>
+    </div>
+  </div>
+
+  <dx-data-grid id="gridContainer"
+                [dataSource]="dataSource"
+                [showBorders]="true"
+                [hoverStateEnabled]="true"
+                (onInitNewRow)="newRowEvent($event)"
+                (onRowInserted)="onRowInserted($event)"
+                (onRowUpdated)="onRowUpdated($event)"
+                (onRowRemoved)="onRowRemoved($event)">
+    <dxo-search-panel [visible]="true"
+                      [width]="240"
+                      placeholder="Search..."></dxo-search-panel>
+    <dxo-filter-panel [visible]="true"></dxo-filter-panel>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-export [enabled]="true" fileName="Reservations"></dxo-export>
+    <dxo-sorting mode="none"></dxo-sorting>
+    <dxo-scrolling mode="virtual" useNative="false"></dxo-scrolling>
+
+    <dxo-editing mode="popup"
+                 [allowUpdating]="true"
+                 [allowAdding]="true"
+                 [allowDeleting]="true"
+                 [useIcons]="true">
+      <dxo-popup title="Score Info"
+                 [showTitle]="true">
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="3" [colSpan]="2">
+          <dxi-item dataField="datePlayed" [colSpan]="3"></dxi-item>
+          <dxi-item dataField="userId" [colSpan]="3"></dxi-item>
+          <dxi-item dataField="hole1"></dxi-item>
+          <dxi-item dataField="hole2"></dxi-item>
+          <dxi-item dataField="hole3"></dxi-item>
+          <dxi-item dataField="hole4"></dxi-item>
+          <dxi-item dataField="hole5"></dxi-item>
+          <dxi-item dataField="hole6"></dxi-item>
+          <dxi-item dataField="hole7"></dxi-item>
+          <dxi-item dataField="hole8"></dxi-item>
+          <dxi-item dataField="hole9"></dxi-item>
+          <dxi-item dataField="hole10"></dxi-item>
+          <dxi-item dataField="hole11"></dxi-item>
+          <dxi-item dataField="hole12"></dxi-item>
+          <dxi-item dataField="hole13"></dxi-item>
+          <dxi-item dataField="hole14"></dxi-item>
+          <dxi-item dataField="hole15"></dxi-item>
+          <dxi-item dataField="hole16"></dxi-item>
+          <dxi-item dataField="hole17"></dxi-item>
+          <dxi-item dataField="hole18"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+
+    <dxi-column dataField="userName" caption="For" dataType="string" [groupIndex]="0" [showWhenGrouped]="true"></dxi-column>
+    <dxi-column dataField="datePlayed" caption="Date Played" dataType="date"></dxi-column>
+    <dxi-column dataField="totalScore" caption="Total Score" dataType="number" [allowEditing]="false"></dxi-column>
+    <dxi-column dataField="hole1" caption="Hole 1" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole2" caption="Hole 2" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole3" caption="Hole 3" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole4" caption="Hole 4" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole5" caption="Hole 5" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole6" caption="Hole 6" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole7" caption="Hole 7" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole8" caption="Hole 8" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole9" caption="Hole 9" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole10" caption="Hole 10" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole11" caption="Hole 11" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole12" caption="Hole 12" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole13" caption="Hole 13" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole14" caption="Hole 14" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole15" caption="Hole 15" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole16" caption="Hole 16" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole17" caption="Hole 17" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="hole18" caption="Hole 18" dataType="number" [visible]="false"></dxi-column>
+    <dxi-column dataField="userId" caption="User" [visible]="false" [allowEditing]="isAdmin">
+      <dxo-lookup [dataSource]="users"
+                  valueExpr="value"
+                  displayExpr="text">
+      </dxo-lookup>
+    </dxi-column>
+  </dx-data-grid>

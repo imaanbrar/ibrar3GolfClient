@@ -12,6 +12,7 @@ import notify from 'devextreme/ui/notify';
 export class ReservationListComponent implements OnInit {
 
   dataSource: any;
+  user: any
   url: string;
   constructor(private _service: ReservationService, private router: Router) {
     this.url = _service.getReservationUrl();
@@ -22,15 +23,21 @@ export class ReservationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = AspNetData.createStore({
-      key: "id",
-      loadUrl: this.url + "/GetReservationView",
-      //loadParams: { userId: this.loggedInUser.id },
-      insertUrl: this.url + "/PostMaterialRequisitionUsingGrid",
-      //onBeforeSend: function (method, ajaxOptions) {
-        //ajaxOptions.headers = { "Authorization": "Bearer " + localStorage.getItem("adal.idtoken") };
-      //}
-    });
+    this.user = JSON.parse(localStorage.getItem('user'))[0];
+
+    if (this.user.typeCode === 'A') {
+      this.dataSource = AspNetData.createStore({
+        key: "id",
+        loadUrl: this.url + "/GetReservationView"
+      });
+    }
+    else {
+      this.dataSource = AspNetData.createStore({
+        key: "id",
+        loadUrl: this.url + "/GetReservationsByUserId",
+        loadParams: { id: this.user.id }
+      });
+    }
   }
 
 }

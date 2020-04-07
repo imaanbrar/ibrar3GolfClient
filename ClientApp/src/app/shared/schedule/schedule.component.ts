@@ -10,6 +10,7 @@ import { ReservationService } from "../../services/reservation.service";
 export class ScheduleComponent implements OnDestroy, OnInit {
   @Input() searchingParams: any;
   @Input() adaptOptions: any;
+  @Input() allMembers: boolean;
   @Output() editBook = new EventEmitter<any>();
 
   groups: any[];
@@ -28,17 +29,32 @@ export class ScheduleComponent implements OnDestroy, OnInit {
   }
 
   setSchedulerData() {
-    this.reservationService.getReservations().subscribe(x => {
-      x.forEach(item => {
-        this.schedulerData.push({
-          id: item.id,
-          text: "",
-          startDate: item.startDateTime,
-          endDate: item.endDateTime,
-          recurrenceRule: item.recurringRule
-        });
+    if (this.allMembers) {
+      this.reservationService.getReservations().subscribe(x => {
+        x.forEach(item => {
+          this.schedulerData.push({
+            id: item.id,
+            text: item.players,
+            startDate: item.startDateTime,
+            endDate: item.endDateTime,
+            recurrenceRule: item.recurringRule
+          });
+        })
       })
-    })
+    }
+    else {
+      this.reservationService.getReservationsByUserId(JSON.parse(localStorage.getItem('user'))[0].id).subscribe(x => {
+        x.forEach(item => {
+          this.schedulerData.push({
+            id: item.id,
+            text: 'Players - ' + item.players,
+            startDate: item.startDateTime,
+            endDate: item.endDateTime,
+            recurrenceRule: item.recurringRule
+          });
+        })
+      })
+    }
   }
 
   openBook(e: any) {

@@ -3,15 +3,21 @@
               [showBorders]="true"
               [hoverStateEnabled]="true"
               (onRowClick)="itemSelected($event)">
+  <dxo-search-panel [visible]="true"
+                    [width]="240"
+                    placeholder="Search..."></dxo-search-panel>
+  <dxo-filter-panel [visible]="true"></dxo-filter-panel>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-export [enabled]="true" fileName="Reservations"></dxo-export>
   <dxo-sorting mode="none"></dxo-sorting>
   <dxo-scrolling mode="virtual" useNative="false"></dxo-scrolling>
 
 
+  <dxi-column dataField="userName" caption="For" dataType="string" [groupIndex]="0" [showWhenGrouped]="true"></dxi-column>
   <dxi-column dataField="reservationType" caption="Reservation Type" dataType="string"></dxi-column>
-  <dxi-column dataField="userName" caption="For" dataType="string"></dxi-column>
   <dxi-column dataField="players" caption="Players" dataType="number"></dxi-column>
   <dxi-column dataField="startDateTime" caption="Start Date Time" dataType="datetime"></dxi-column>
   <dxi-column dataField="endDateTime" caption="End Date Time" dataType="datetime"></dxi-column>
   <dxi-column dataField="isApproved" caption="Approved" dataType="boolean"></dxi-column>
-</dx-data-grid>
+</dx-data-grid> 

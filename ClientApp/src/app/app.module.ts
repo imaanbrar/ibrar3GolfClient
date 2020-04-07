@@ -16,6 +16,9 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
 import { ReservationDetailsComponent } from './reservation-details/reservation-details.component';
 import { BookComponent } from './shared/book/book.component';
 import { ScheduleComponent } from './shared/schedule/schedule.component';
+import { ReservationViewComponent } from './reservation-view/reservation-view.component';
+import { ReservationScheduleComponent } from './reservation-schedule/reservation-schedule.component';
+import { ScoresViewComponent } from './scores-view/scores-view.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { ScheduleComponent } from './shared/schedule/schedule.component';
     ReservationListComponent,
     ReservationDetailsComponent,
     BookComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    ReservationViewComponent,
+    ReservationScheduleComponent,
+    ScoresViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,8 +45,9 @@ import { ScheduleComponent } from './shared/schedule/schedule.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'reservation-list', component: ReservationListComponent },
+      { path: 'reservation-list', component: ReservationViewComponent },
       { path: 'reservation-details', component: ReservationDetailsComponent },
+      { path: 'scores', component: ScoresViewComponent },
     ])
   ],
   providers: [],

@@ -3,5 +3,5 @@
 
 <ng-template #elseBlock>
   <book [data]="bookData" [isNew]="isNew" [adaptOptions]="adaptOptions"></book>
-  <schedule [searchingParams]="searchingParams" [adaptOptions]="adaptOptions" (editBook)="popupBook($event)"></schedule>
+  <schedule [searchingParams]="searchingParams" [adaptOptions]="adaptOptions" [allMembers]="true" (editBook)="popupBook($event)"></schedule>
 </ng-template>

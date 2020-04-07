@@ -103,6 +103,15 @@ export class ReservationService {
       )
   }
 
+  getReservationsByUserId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.reservationUrl}/GetReservationsByUserId?id=${id}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError(error.message);
+        })
+      )
+  }
+
   getBookDataById(id: number): Observable<any> {
     return this.http.get<any>(`${this.reservationUrl}/GetReservationById?id=${id}`)
       .pipe(
